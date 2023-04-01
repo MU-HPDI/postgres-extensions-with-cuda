@@ -1,3 +1,5 @@
+include .env
+
 SRCFILE = main
 PG_SERVER_DIR = /usr/include/postgresql/14/server
 PG_BINDIR = /tmp
@@ -9,7 +11,7 @@ taget:
 	nvcc -Xcompiler "-shared -rdynamic" -o $(SRCFILE).so main.o cuda_wrappers.o cuda_kernel.o
 
 	mv $(SRCFILE).so $(PG_BINDIR)/$(SRCFILE).so
-	export PGPASSWORD="PGPASSWORD" && psql -d gpu_dbl -f script.sql
+	psql postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE) -f $ script.sql
 
 all: clean taget
 

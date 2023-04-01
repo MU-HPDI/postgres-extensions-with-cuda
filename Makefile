@@ -9,7 +9,7 @@ taget:
 	nvcc -Xcompiler "-shared -rdynamic" -o $(SRCFILE).so main.o cuda_wrappers.o cuda_kernel.o
 
 	mv $(SRCFILE).so $(PG_BINDIR)/$(SRCFILE).so
-	# export PGPASSWORD="Jamal.s" && psql -d gpu_dbl -f script.sql
+	export PGPASSWORD="PGPASSWORD" && psql -d gpu_dbl -f script.sql
 
 all: clean taget
 

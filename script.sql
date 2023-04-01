@@ -1,4 +1,4 @@
-DROP FUNCTION vector_addition_cuda;
+DROP FUNCTION IF EXISTS vector_addition_cuda(integer [], integer[]);
 CREATE OR REPLACE FUNCTION vector_addition_cuda(integer [], integer[])
         RETURNS integer []
      AS '/tmp/main.so', 'vector_addition_cuda'

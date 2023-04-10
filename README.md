@@ -9,16 +9,20 @@ This project is a example of a CUDA integration with PostgreSQL. It is a simple 
 
 ## Installation
 
-1. Clone the repository: `git clone https://vcs.missouri.edu/jas8dz/spi-integration-cuda`
-2. Navigate to the project directory: `cd spi-integration-cuda`
+1. Clone the repository: `git clone https://github.com/MU-HPDI/postgres-extensions-with-cuda.git`
+2. Navigate to the project directory: `cd postgres-extensions-with-cuda`
 3. Build the project: `make`
 
 ## Usage
 
 1. Make sure that the PostgreSQL server is running.
 2. Set the required environment variables in a `.env` file.
-3. Run the project: `make all`
-
+3. Create environment for python virtual environment: `python3 -m venv env`
+4. Install python dependencies: `pip install -r requirements.txt`
+5. Insert dummy data into the database: `make insert`
+6. Run the project: `make clean all`
+7. Optionally, you can run only the CUDA kernel: `make clean cuda`
+   1. Then, you execute the kernel: `./cuda.out`
 ## Environment Variables
 
 The following environment variables are required to run the project:

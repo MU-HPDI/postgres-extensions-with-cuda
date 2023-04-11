@@ -2,16 +2,18 @@
 
 This project is a example of a CUDA integration with PostgreSQL. It is a simple example of a CUDA kernel that is executed on the GPU and the result is return as a set returning function (SRF).
 
-## Requirements
 
-- CUDA Toolkit
-- PostgreSQL server and development headers
+## Prerequisites
 
-## Installation
+- [PostgreSQL](https://www.postgresql.org/download/)
+- Development libraries and headers for C language backend for PostgreSQL (e.g. `sudo apt install postgresql-server-dev-XX` where `XX` is the version of PostgreSQL)
+- [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
+## Repository Installation
 
 1. Clone the repository: `git clone https://github.com/MU-HPDI/postgres-extensions-with-cuda.git`
-2. Navigate to the project directory: `cd postgres-extensions-with-cuda`
-3. Build the project: `make`
+2. Check the include PostgreSQL directory: `pg_config --includedir-server`
+3. Navigate to the project directory: `cd postgres-extensions-with-cuda`
+4. Build the project: `make`
 
 ## Usage
 

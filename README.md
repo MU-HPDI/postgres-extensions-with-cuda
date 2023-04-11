@@ -6,7 +6,8 @@ This project is a example of a CUDA integration with PostgreSQL. It is a simple 
 ## Prerequisites
 
 - [PostgreSQL](https://www.postgresql.org/download/)
-- Development libraries and headers for C language backend for PostgreSQL (e.g. `sudo apt install postgresql-server-dev-XX` where `XX` is the version of PostgreSQL)
+- Development libraries and headers for C language backend for PostgreSQL
+  - `sudo apt install postgresql-server-dev-XX` where `XX` is the version of PostgreSQL
 - [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
 ## Repository Installation
 

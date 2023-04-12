@@ -5,18 +5,18 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
 
-SMALL_INT_MAX = 32_767
 SMALL_INT_MIN = -32_768
+SMALL_INT_MAX = 32_767
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Get database connection parameters from environment variables
-dbname = os.getenv("DB_NAME")
-user = os.getenv("DB_USER")
-password = os.getenv("DB_PASSWORD")
-host = os.getenv("DB_HOST")
-port = os.getenv("DB_PORT")
+dbname = os.getenv("PGDATABASE")
+user = os.getenv("PGUSER")
+password = os.getenv("PGPASSWORD")
+host = os.getenv("PGHOST")
+port = os.getenv("PGPORT")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -45,7 +45,6 @@ if __name__ == "__main__":
         cur.execute("CREATE TABLE example (tstmp TIMESTAMP, values smallint[]);")
     except:
         print("Table already exists")
-        # rollback changes
         conn.rollback()
 
     # Generate random data and insert into database

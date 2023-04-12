@@ -20,12 +20,12 @@ RUN apt-get update && \
 # run make clean all from the Makefile
 # Switch back to the root user
 USER root
-RUN make insert
 RUN make docker
 
 # Create a new Postgres user and database
 USER postgres
 RUN /etc/init.d/postgresql start && \
+    make insert && \
     psql -f /app/script.sql && \
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" && \
     createdb -O docker docker 

@@ -45,7 +45,11 @@ Datum vector_addition_cuda(PG_FUNCTION_ARGS)
 
     cuda_wrapper_vector_addition((int *)ARR_DATA_PTR(x), (int *)ARR_DATA_PTR(y), c, n);
 
-    // elog(INFO, "result: %d", c[0]);
+    for (int i = 0; i < n; i++)
+    {
+        elog(INFO, "x: %d", ((int *)ARR_DATA_PTR(x))[i]);
+        elog(INFO, "y: %d", ((int *)ARR_DATA_PTR(y))[i]);
+    }
 
     Datum *c_datum = (Datum *)palloc(n * sizeof(Datum));
 

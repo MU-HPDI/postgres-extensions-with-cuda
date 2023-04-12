@@ -1,31 +1,40 @@
 include .env
 
+# Use variables for directories and files
 SRCFILE = main
 PG_SERVER_DIR = /usr/include/postgresql/14/server
 PG_BINDIR = /tmp
 
-cuda_kernel.o:
-	nvcc -Xcompiler -fPIC -c cuda_funcs/cuda_kernel.cu -o cuda_kernel.o
+# Use automatic variables to avoid repetition and simplify the Makefile
+cuda_kernel.o: cuda_funcs/cuda_kernel.cu
+	nvcc -Xcompiler -fPIC -c $< -o $@
 
-cuda_wrappers.o: cuda_kernel.o
-	nvcc -Xcompiler -fPIC -c cuda_funcs/cuda_wrappers.cu -o cuda_wrappers.o
+cuda_wrappers.o: cuda_funcs/cuda_wrappers.cu
+	nvcc -Xcompiler -fPIC -c $< -o $@
 
-cuda: cuda_wrappers.o
-	nvcc -Xcompiler -fPIC -c cuda_funcs/main.cu -o cuda.o 
-	nvcc cuda.o cuda_wrappers.o cuda_kernel.o -o cuda.out
+cuda.o: cuda_funcs/main.cu
+	nvcc -Xcompiler -fPIC -c $< -o $@
 
-main.o: cuda_wrappers.o
-	nvcc -Xcompiler "-fPIC -w" -c -I $(PG_SERVER_DIR) main.cpp -o main.o
+main.o: main.cpp
+	nvcc -Xcompiler "-fPIC -w" -c -I $(PG_SERVER_DIR) $< -o $@
 
-target: main.o 
-	nvcc -Xcompiler "-shared -rdynamic" -o $(SRCFILE).so main.o cuda_wrappers.o cuda_kernel.o
+target: main.o cuda_wrappers.o cuda_kernel.o cuda.o
+	nvcc -Xcompiler "-shared -rdynamic" -o $(SRCFILE).so $^
 	mv $(SRCFILE).so $(PG_BINDIR)/$(SRCFILE).so
-	psql postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE) -f $ script.sql
+	psql postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE) -f script.sql
 
+# Use phony targets for non-file targets, such as "clean" and "all"
+.PHONY: all insert clean
+
+# The default target is "all"
 all: clean target
 
+# Use variables for insert arguments
+NUM_RECORDS = 10
+ARRAY_LENGTH = 1024
+
 insert:
-	env/bin/python3  dummy_data.py --num_records 10 --array_length 1024
+	env/bin/python3 dummy_data.py --num_records $(NUM_RECORDS) --array_length $(ARRAY_LENGTH)
 
 clean:
 	rm -f *.o *.so

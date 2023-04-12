@@ -26,6 +26,14 @@ This project is a example of a CUDA integration with PostgreSQL. It is a simple 
 6. Run the project: `make clean all`
 7. Optionally, you can run only the CUDA kernel: `make clean cuda`
    1. Then, you execute the kernel: `./cuda.out`
+
+## Docker Installation
+
+```bash
+docker build -t cuda_image .
+docker volume create pgdata
+docker run --gpus all -p 5435:5432 -v pgdata:/var/lib/postgresql/14/main cuda_image
+```
 ## Environment Variables
 
 The following environment variables are required to run the project:

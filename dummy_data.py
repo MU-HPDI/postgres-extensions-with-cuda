@@ -46,6 +46,7 @@ if __name__ == "__main__":
     except:
         print("Table already exists")
         conn.rollback()
+        quit()
 
     # Generate random data and insert into database
     for i in range(args.num_records):

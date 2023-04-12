@@ -23,6 +23,10 @@ target: main.o cuda_wrappers.o cuda_kernel.o cuda.o
 	mv $(SRCFILE).so $(PG_BINDIR)/$(SRCFILE).so
 	psql postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE) -f script.sql
 
+docker: main.o cuda_wrappers.o cuda_kernel.o cuda.o
+	nvcc -Xcompiler "-shared -rdynamic" -o $(SRCFILE).so $^
+	mv $(SRCFILE).so $(PG_BINDIR)/$(SRCFILE).so
+
 # Use phony targets for non-file targets, such as "clean" and "all"
 .PHONY: all insert clean
 

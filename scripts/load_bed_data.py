@@ -29,7 +29,7 @@ if __name__ == "__main__":
     except:
         print("Table already exists")
 
-    df = pd.read_csv("bed_data.csv")
+    df = pd.read_csv("scripts/bed_data.csv")
 
     try:
         df.to_sql(
@@ -41,4 +41,5 @@ if __name__ == "__main__":
         print(f"Inserted {len(df)} records into bed_data table")
     except:
         print("No records inserted")
+
 

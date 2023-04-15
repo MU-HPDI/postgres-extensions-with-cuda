@@ -4,13 +4,15 @@
 #define COEFF_LEN 13
 
 
-__device__ int get_index_global_array_device(int arr_size, int offset)
+__device__ 
+int get_index_global_array_device(int arr_size, int offset)
 {
     return blockIdx.x * arr_size + offset;
 }
 
 template <typename T>
-__device__ void flip_and_append_device(
+__device__ 
+void flip_and_append_device(
     const T* input, 
     T* output, 
     int array_size, 
@@ -37,7 +39,8 @@ __device__ void flip_and_append_device(
 }
 
 template <typename Input, typename T>
-__device__ void butter_lowpass_filter_device(
+__device__ 
+void butter_lowpass_filter_device(
     const Input *x,
     T *filter_x,
     int size_x
@@ -70,7 +73,8 @@ __device__ void butter_lowpass_filter_device(
 }
 
 template<typename T, typename U>
-__device__ void compute_energy_device(
+__device__ 
+void compute_energy_device(
     const T* input, 
     U* energy_array, 
     int input_size,
@@ -98,7 +102,8 @@ __device__ void compute_energy_device(
 }
 
 template<typename T, typename U>
-__device__ void smooth_device(const T* y, U* y_smooth, int size_y, int num_elements_work)
+__device__ 
+void smooth_device(const T* y, U* y_smooth, int size_y, int num_elements_work)
 {
 
     int window_size = 50;
@@ -137,7 +142,8 @@ __device__ void smooth_device(const T* y, U* y_smooth, int size_y, int num_eleme
 }
 
 template<typename T, typename U>
-__device__ void peak_indices_device(const T *input, U *output, int input_size, int *output_size, int num_elements_work)
+__device__ 
+void peak_indices_device(const T *input, U *output, int input_size, int *output_size, int num_elements_work)
 {
     int tdix = threadIdx.x;
 
@@ -161,7 +167,8 @@ __device__ void peak_indices_device(const T *input, U *output, int input_size, i
 }
 
 template<typename T>
-__device__ void sort_device(T* input, int size)
+__device__ 
+void sort_device(T* input, int size)
 {
     int tdix = threadIdx.x;
 
@@ -186,7 +193,8 @@ __device__ void sort_device(T* input, int size)
 
 
 template <typename T>
-__device__ void local_maxima(
+__device__ 
+void local_maxima(
     const T *arr, 
     int start,
     int end, 
@@ -211,7 +219,8 @@ __device__ void local_maxima(
 }
 
 template <typename T, typename U>
-__device__ void construct_loc_pks_device(
+__device__ 
+void construct_loc_pks_device(
     const T* input_array,
     U *peaks_array,
     U *loc,
@@ -253,7 +262,8 @@ __device__ void construct_loc_pks_device(
 
 
 template <typename T, typename U>
-__device__ void construct_loc_pksn_device(
+__device__ 
+void construct_loc_pksn_device(
     const T* input_array,
     U *peaks_array,
     U *loc,
@@ -295,7 +305,8 @@ __device__ void construct_loc_pksn_device(
 
 
 template <typename T>
-__device__ void diff_zeros_count_device(
+__device__ 
+void diff_zeros_count_device(
     T *array,
     int *output,
     int array_size,
@@ -323,7 +334,8 @@ __device__ void diff_zeros_count_device(
 }
 
 template <typename T, typename U>
-__device__ void diff_device(
+__device__ 
+void diff_device(
     T *array,
     U *output,
     int array_size)

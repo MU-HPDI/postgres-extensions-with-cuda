@@ -12,7 +12,9 @@ This project is a example of a CUDA integration with PostgreSQL. It is a simple 
 1. Clone the repository: `git clone https://github.com/MU-HPDI/postgres-extensions-with-cuda.git`
 2. Check the include PostgreSQL directory: `pg_config --includedir-server`
 3. Navigate to the project directory: `cd postgres-extensions-with-cuda`
-4. Build the project: `make`
+4. Create a build directory: `mkdir build`
+5. Insert dummy data into the database: `make insert`
+6. Build the project: `make clean all`
 
 ## Usage
 
@@ -43,11 +45,9 @@ Example output:
 +-----------------------------------------------------------------------------+
 ```
 3. Set the required environment variables in a `.env` file.
-4. Create environment for python virtual environment: `python3 -m venv env`
-5. Install python dependencies: `pip install -r requirements.txt`
-6. Insert dummy data into the database: `make insert`
-7. Run the project: `make clean all`
-8. Optionally, you can run only the CUDA kernel: `make clean cuda`
+4. Insert dummy data into the database: `make insert`
+5. Run the project: `make clean all`
+6. Optionally, you can run only the CUDA kernel: `make clean cuda`
    1. Then, you execute the kernel: `./cuda.out`
 
 ## PostgreSQL Functions

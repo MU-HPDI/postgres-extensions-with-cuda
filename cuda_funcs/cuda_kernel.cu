@@ -19,7 +19,8 @@ void vector_add_cuda(int *x, int *y, int * result, int n)
   result[i] = x[i] + y[i];
 }
 
-__global__ void max_kernel(short int* input, short int* output, int rows, int cols) {
+__global__ 
+void max_kernel(short int* input, short int* output, int rows, int cols) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
     int idx = row * cols + col;
@@ -49,7 +50,8 @@ __global__ void max_kernel(short int* input, short int* output, int rows, int co
 }
 
 template <typename T, unsigned int ARRAY_SIZE, unsigned int PEAKS_MAX_SIZE>
-__global__ void hr_kernel(
+__global__ 
+void hr_kernel(
     unsigned short int *global_input,
     int *global_input_offsets,
     T *global_output_with_padding,
@@ -217,7 +219,6 @@ __global__ void hr_kernel(
     );
 
     __syncthreads();
-
 
     int loc_no_dups_size = no_dups_size - 1;
 

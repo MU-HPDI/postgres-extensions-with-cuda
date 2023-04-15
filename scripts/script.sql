@@ -38,4 +38,5 @@ CREATE OR REPLACE FUNCTION heart_rate_estimation_cuda(character varying, timesta
      LANGUAGE C STRICT
 ;
 
+
 SELECT * FROM heart_rate_estimation_cuda('bed_data', '2022-06-20 00:00:00'::timestamp, '2022-06-20 01:00:00'::timestamp);

@@ -79,3 +79,4 @@ if __name__ == "__main__":
     conn.close()
 
     print(f"Inserted {records_inserted} records into example table")
+    

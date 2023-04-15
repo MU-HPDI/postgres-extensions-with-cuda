@@ -20,3 +20,20 @@ CREATE OR REPLACE FUNCTION max_reduction_cuda(start_time timestamp without time 
      LANGUAGE C STRICT;
 
 SELECT * FROM max_reduction_cuda('2023-04-08 22:00:00'::timestamp, '2023-04-09 22:00:00'::timestamp);
+
+
+-- Heart Rate 
+DROP FUNCTION IF EXISTS heart_rate_estimation_cuda(character varying, timestamp without time zone, timestamp without time zone);
+DROP TYPE IF EXISTS __heart_rate_type;
+CREATE TYPE __heart_rate_type AS (
+        tstmp timestamp without time zone, 
+        heart_rate real
+);
+
+CREATE OR REPLACE FUNCTION heart_rate_estimation_cuda(character varying, timestamp without time zone, timestamp without time zone)
+        RETURNS SETOF __heart_rate_type
+     AS '/tmp/main.so', 'heart_rate_estimation_cuda'
+     LANGUAGE C STRICT
+;
+
+SELECT * FROM heart_rate_estimation_cuda('bed_data', '2022-06-20 00:00:00'::timestamp, '2022-06-20 01:00:00'::timestamp);

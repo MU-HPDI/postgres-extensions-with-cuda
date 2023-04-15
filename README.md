@@ -42,11 +42,10 @@ Example output:
 +-----------------------------------------------------------------------------+
 ```
 3. Check the include PostgreSQL directory: `pg_config --includedir-server`
-4. Navigate to the project directory: `cd postgres-extensions-with-cuda`
-5. Create a build directory: `mkdir build`
-6. Set the required environment variables in a `.env` file from the `.env.example` file.
-7. Insert dummy data into the database: `make insert`
-8. Run the project: `make clean extension`
+4. Create a build directory: `mkdir build`
+5. Set the required environment variables in a `.env` file from the `.env.example` file.
+6. Insert dummy data into the database: `make insert`
+7. Run the project: `make clean extension`
 ## PostgreSQL Functions
 
 Once the project is running, you can execute the following functions:

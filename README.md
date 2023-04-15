@@ -14,7 +14,7 @@ This project is a example of a CUDA integration with PostgreSQL. It is a simple 
 3. Navigate to the project directory: `cd postgres-extensions-with-cuda`
 4. Create a build directory: `mkdir build`
 5. Insert dummy data into the database: `make insert`
-6. Build the project: `make clean all`
+6. Build the project: `make clean extension`
 
 ## Usage
 
@@ -46,7 +46,7 @@ Example output:
 ```
 3. Set the required environment variables in a `.env` file.
 4. Insert dummy data into the database: `make insert`
-5. Run the project: `make clean all`
+5. Run the project: `make clean extension`
 ## PostgreSQL Functions
 
 Once the project is running, you can execute the following functions:

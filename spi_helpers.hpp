@@ -283,9 +283,13 @@ Datum **compute_heart_rate_results(FuncCallContext *funcctx, const char *hardwar
     {
         cuda_wrapper_heart_rate_estimation(selected_filter_vector, heart_rate_array, number_of_elements, 1024, &elapsed_time);
     }
-    else
+    else if (strcmp(hardware, "CPU") == 0)
     {
         host_wrapper_heart_rate_estimation(selected_filter_vector, heart_rate_array, number_of_elements, &elapsed_time);
+    }
+    else
+    {
+        elog(ERROR, "Invalid hardware: %s. Valid options are: CPU, GPU", hardware);
     }
 
     const char *timings_query = build_timings_query(version, number_of_elements, hardware, elapsed_time);

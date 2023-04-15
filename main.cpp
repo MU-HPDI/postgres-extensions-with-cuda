@@ -42,11 +42,7 @@ Datum vector_addition_cuda(PG_FUNCTION_ARGS)
 
     int *c = (int *)palloc(n * sizeof(int));
 
-    elog(INFO, "n: %d", n);
-
     cuda_wrapper_vector_addition((int *)ARR_DATA_PTR(x), (int *)ARR_DATA_PTR(y), c, n);
-
-    // elog(INFO, "result: %d", c[0]);
 
     Datum *c_datum = (Datum *)palloc(n * sizeof(Datum));
 
@@ -87,7 +83,7 @@ Datum max_reduction_cuda(PG_FUNCTION_ARGS)
 
     if (SRF_IS_FIRSTCALL())
     {
-        elog(INFO, "command: %s", command);
+        // elog(INFO, "command: %s", command);
         MemoryContext oldcontext;
 
         funcctx = SRF_FIRSTCALL_INIT();
@@ -175,7 +171,7 @@ Datum heart_rate_estimation(PG_FUNCTION_ARGS)
 
     if (SRF_IS_FIRSTCALL())
     {
-        elog(INFO, "command: %s", command);
+        // elog(INFO, "command: %s", command);
         MemoryContext oldcontext;
 
         funcctx = SRF_FIRSTCALL_INIT();
@@ -217,7 +213,6 @@ Datum heart_rate_estimation(PG_FUNCTION_ARGS)
 
     if (SPI_processed == 0)
     {
-        elog(INFO, "done");
         SPI_finish();
         SRF_RETURN_DONE(funcctx);
     }

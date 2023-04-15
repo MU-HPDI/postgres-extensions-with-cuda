@@ -28,7 +28,7 @@ target: main.o cuda_wrappers.o cuda.o host_wrapper.o
 .PHONY: all insert clean
 
 # The default target is "all"
-all: clean target
+extension: clean target
 
 # Use variables for insert arguments
 NUM_RECORDS = 10

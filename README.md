@@ -75,6 +75,17 @@ The following environment variables are required to run the project:
 - `PGPORT`: The PostgreSQL server port number
 - `PGDATABASE`: The PostgreSQL database name
 
+## Reproducibility
+
+The following steps can be used to reproduce the results of this project (i.e. Fig. 5 from the paper). In this step, we are going to get the heart rate estimation over different time intervals using the GPU and CPU (1 to 1800 minutes of bed sensor data). The experiemnt can take a minute to run and generate the plot. The following steps assume that the project has been installed and all data has been inserted into the database. (See the [Repository Installation](#repository-installation) and [Usage](#usage) sections for more details.):
+
+1. Run the following command:
+```bash
+make plot
+```
+2. The plot will be saved in the `scripts` directory. ![Heart rate estimation over different time intervals using the GPU and CPU](scripts/timings_results_log_y.png)
+
+**Note:** If the plot is already generated, you need to change the `experiment_version` variable in the `scripts/plots.py` file to perform a new experiment.
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.

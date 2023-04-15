@@ -23,19 +23,41 @@ def get_psycopg2_conn():
         dbname=dbname, user=user, password=password, host=host, port=port
     )
 
-# def heart_rate_estimation(
-#     engine = get_engine(),
-#     table_name: str = "bed_data",
-#     start_time: str = "2022-06-20 00:00:00",
-#     end_time: str = "2022-06-20 01:00:00",
-# ):
-#     sql = f"""
-#     SELECT 
-#         * 
-#     FROM 
-#         heart_rate_estimation('{table_name}', '{start_time}'::timestamp, '{end_time}'::timestamp);
-#     """
+def heart_rate_estimation(
+    engine = get_engine(),
+    table_name: str = "bed_data",
+    start_time: str = "2021-05-29 00:00:00",
+    end_time: str = "2021-06-07 00:00:00",
+    limit: int = 100,
+    hardware: str = "GPU",
+    version: str = "v1.0",
+):
+    sql = f"""
+    SELECT 
+        * 
+    FROM 
+        heart_rate_estimation('{table_name}', '{start_time}'::TIMESTAMP, '{end_time}'::TIMESTAMP, {limit}, '{hardware}', '{version}');
+    """
+    return sql
+    # print(sql)
     
-#     df = pd.read_sql(sql, engine)
+    # df = pd.read_sql(sql, engine)
     
-#     return df
+    # return df
+
+def get_timing_results(
+    engine = get_engine(),
+    experiment_version = "1.0",
+) -> pd.DataFrame:
+    sql = f"""
+    SELECT 
+        * 
+    FROM 
+        heart_rate_timings
+    WHERE
+        experiment_version = '{experiment_version}';
+    """
+    
+    df = pd.read_sql(sql, engine)
+    
+    return df

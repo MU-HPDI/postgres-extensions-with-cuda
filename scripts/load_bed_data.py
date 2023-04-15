@@ -27,7 +27,7 @@ if __name__ == "__main__":
     except:
         print("Table already exists")
 
-    df = pd.read_csv("scripts/bed_data.csv")
+    df = pd.read_csv("scripts/bed_data.zip", compression="zip")
 
     try:
         df.to_sql(

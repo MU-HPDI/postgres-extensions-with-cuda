@@ -63,7 +63,7 @@ SELECT * FROM max_reduction_cuda('2023-04-08 22:00:00'::TIMESTAMP, '2023-04-09 2
 
 This function returns the heart rate of a resident based on their bed sensor data.
 ```sql
-SELECT * FROM heart_rate_estimation('bed_data', '2022-06-20 00:00:00'::TIMESTAMP, '2022-06-20 01:00:00'::TIMESTAMP, 10, 'GPU', '1.0');
+SELECT * FROM heart_rate_estimation('bed_data', '2021-05-29 00:00:00'::TIMESTAMP, '2021-06-07 00:00:00'::TIMESTAMP, 100, 'GPU', '1.0');
 ```
 ## Environment Variables
 

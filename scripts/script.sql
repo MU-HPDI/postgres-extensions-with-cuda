@@ -46,4 +46,4 @@ CREATE OR REPLACE FUNCTION heart_rate_estimation(character varying, timestamp wi
 ;
 
 
-SELECT * FROM heart_rate_estimation('bed_data', '2022-06-20 00:00:00'::timestamp, '2022-06-20 01:00:00'::timestamp, 10, 'CPU', '1.0');
+SELECT * FROM heart_rate_estimation('bed_data', '2021-05-29 00:00:00'::timestamp, '2021-06-07 00:00:00'::timestamp, 100, 'GPU', '1.0');

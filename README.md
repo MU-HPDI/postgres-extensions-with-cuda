@@ -49,6 +49,25 @@ Example output:
 7. Run the project: `make clean all`
 8. Optionally, you can run only the CUDA kernel: `make clean cuda`
    1. Then, you execute the kernel: `./cuda.out`
+
+## PostgreSQL Functions
+
+Once the project is running, you can execute the following functions:
+
+This function returns the sum of two integer vectors.
+```sql
+SELECT vector_addition_cuda(ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+```
+
+This function returns the maximum number of each time interval using a parallel reduction algorithm on the GPU.
+```sql
+SELECT * FROM max_reduction_cuda('2023-04-08 22:00:00'::TIMESTAMP, '2023-04-09 22:00:00'::TIMESTAMP);
+```
+
+This function returns the heart rate of a resident based on their bed sensor data.
+```sql
+SELECT * FROM heart_rate_estimation_cuda('bed_data', '2022-06-20 00:00:00'::TIMESTAMP, '2022-06-20 01:00:00'::TIMESTAMP);
+```
 ## Environment Variables
 
 The following environment variables are required to run the project:

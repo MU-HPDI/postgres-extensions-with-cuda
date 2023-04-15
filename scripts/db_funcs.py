@@ -23,7 +23,7 @@ def get_psycopg2_conn():
         dbname=dbname, user=user, password=password, host=host, port=port
     )
 
-# def heart_rate_estimation_cuda(
+# def heart_rate_estimation(
 #     engine = get_engine(),
 #     table_name: str = "bed_data",
 #     start_time: str = "2022-06-20 00:00:00",
@@ -33,7 +33,7 @@ def get_psycopg2_conn():
 #     SELECT 
 #         * 
 #     FROM 
-#         heart_rate_estimation_cuda('{table_name}', '{start_time}'::timestamp, '{end_time}'::timestamp);
+#         heart_rate_estimation('{table_name}', '{start_time}'::timestamp, '{end_time}'::timestamp);
 #     """
     
 #     df = pd.read_sql(sql, engine)

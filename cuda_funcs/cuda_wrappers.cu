@@ -70,9 +70,15 @@ void cuda_wrapper_heart_rate_estimation(
     std::vector<std::vector<unsigned short int>> selected_filter_vector,
     float *heart_rate,
     int heart_rate_size,
-    int num_of_threads
+    int num_of_threads,
+    float *time_elapsed
 )
 {
+
+    cudaEvent_t start_cuda, stop_cuda;
+    cudaEventCreate(&start_cuda);
+    cudaEventCreate(&stop_cuda);
+    cudaEventRecord(start_cuda, 0);
 
     thrust::host_vector<int> h_offset_vector(heart_rate_size + 1);
     int num_of_elements = 0;
@@ -130,5 +136,11 @@ void cuda_wrapper_heart_rate_estimation(
     }
 
     thrust::copy(d_heart_rate.begin(), d_heart_rate.end(), heart_rate);
+
+
+    cudaEventRecord(stop_cuda, 0);
+    cudaEventSynchronize(stop_cuda);
+
+    cudaEventElapsedTime(time_elapsed, start_cuda, stop_cuda);
 
 }

@@ -8,7 +8,7 @@
 
 #define SLIDE 500
 #define BLOCK_SIZE 1024
-#define HR_BLOCK_SIZE 1024
+#define HR_BLOCK_SIZE 256
 
 
 __global__

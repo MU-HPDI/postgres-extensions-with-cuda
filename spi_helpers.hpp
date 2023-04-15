@@ -15,6 +15,7 @@ extern "C"
 }
 
 #include "cuda_funcs/cuda_wrappers.hpp"
+#include "cpu_funcs/host_wrapper.hpp"
 #include <vector>
 
 struct AggregatedResult
@@ -44,6 +45,44 @@ const char *build_query(
 
     char *query;
     asprintf(&query, "SELECT * FROM %s WHERE tstmp BETWEEN '%s'::TIMESTAMP AND '%s'::TIMESTAMP", table_name, start_time, end_time);
+
+    char *pq_query = (char *)palloc(strlen(query) + 1);
+    strcpy(pq_query, query);
+    pq_query[strlen(pq_query)] = '\0';
+    return pq_query;
+}
+
+const char *build_query_with_limit(
+    const char *table_name,
+    const char *start_time,
+    const char *end_time,
+    const int limit)
+{
+
+    char *query;
+    asprintf(&query, "SELECT * FROM %s WHERE tstmp BETWEEN '%s'::TIMESTAMP AND '%s'::TIMESTAMP LIMIT %d", table_name, start_time, end_time, limit);
+
+    char *pq_query = (char *)palloc(strlen(query) + 1);
+    strcpy(pq_query, query);
+    pq_query[strlen(pq_query)] = '\0';
+    return pq_query;
+}
+
+/**
+ * @brief Builds a SQL query string used to insert a row into the heart_rate_timings table.
+ * @param experiment_version A C string representing the version of the experiment.
+ * @param number_minutes An integer representing the number of minutes in the experiment.
+ * @param hardware A C string representing the hardware used in the experiment.
+ * @param elapsed_time A float representing the elapsed time of the experiment.
+ */
+const char *build_timings_query(
+    const char *experiment_version,
+    const int number_minutes,
+    const char *hardware,
+    const float elapsed_time)
+{
+    char *query;
+    asprintf(&query, "INSERT INTO heart_rate_timings VALUES ('%s', %d, '%s', %f)", experiment_version, number_minutes, hardware, elapsed_time);
 
     char *pq_query = (char *)palloc(strlen(query) + 1);
     strcpy(pq_query, query);
@@ -192,9 +231,11 @@ Datum **compute_results_c_plus_plus(FuncCallContext *funcctx)
  * @brief Computes the results of the query inside GPU for Heart Rate Estimation.
  *
  * @param funcctx A FuncCallContext object.
+ * @param hardware A C string containing the hardware to be used.
+ * @param version A C string containing the version (for example: "v1.0.0") this is for testing purposes.
  * @return Datum** A pointer to an array of Datum values.
  */
-Datum **compute_heart_rate_results(FuncCallContext *funcctx)
+Datum **compute_heart_rate_results(FuncCallContext *funcctx, const char *hardware, const char *version)
 {
     unsigned int i;
     bool is_null = true;
@@ -236,7 +277,19 @@ Datum **compute_heart_rate_results(FuncCallContext *funcctx)
 
     int number_of_elements = records_processed;
     float4 *heart_rate_array = (float4 *)palloc(sizeof(float4) * number_of_elements);
-    cuda_wrapper_heart_rate_estimation(selected_filter_vector, heart_rate_array, number_of_elements, 1024);
+    float elapsed_time;
+
+    if (strcmp(hardware, "GPU") == 0)
+    {
+        cuda_wrapper_heart_rate_estimation(selected_filter_vector, heart_rate_array, number_of_elements, 1024, &elapsed_time);
+    }
+    else
+    {
+        host_wrapper_heart_rate_estimation(selected_filter_vector, heart_rate_array, number_of_elements, &elapsed_time);
+    }
+
+    const char *timings_query = build_timings_query(version, number_of_elements, hardware, elapsed_time);
+    SPI_execute(timings_query, false, 0);
 
     aggregated_results = (Datum **)SPI_palloc(sizeof(Datum *) * number_of_elements);
     int valid_results = 0;

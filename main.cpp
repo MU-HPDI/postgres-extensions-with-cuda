@@ -10,7 +10,7 @@ extern "C"
 
     PG_FUNCTION_INFO_V1(vector_addition_cuda);
     PG_FUNCTION_INFO_V1(max_reduction_cuda);
-    PG_FUNCTION_INFO_V1(heart_rate_estimation_cuda);
+    PG_FUNCTION_INFO_V1(heart_rate_estimation);
 #include "utils/geo_decls.h"
 #include "funcapi.h"
 #include "utils/array.h"
@@ -141,7 +141,7 @@ Datum max_reduction_cuda(PG_FUNCTION_ARGS)
     SRF_RETURN_NEXT(funcctx, result);
 }
 
-Datum heart_rate_estimation_cuda(PG_FUNCTION_ARGS)
+Datum heart_rate_estimation(PG_FUNCTION_ARGS)
 {
     TupleDesc tupleDesc;
 
@@ -154,13 +154,16 @@ Datum heart_rate_estimation_cuda(PG_FUNCTION_ARGS)
         Variables passed from Postgres
 
         Ex.
-            SELECT * FROM low_pass_filter('data_table', '2020-01-01'::timestamp, '2020-01-02'::timestamp);
+            SELECT * FROM low_pass_filter('data_table', '2020-01-01'::timestamp, '2020-01-02'::timestamp, 10, 'GPU', '1.0');
     */
     const char *table_name_cstr = text_to_cstring(PG_GETARG_TEXT_P(0));
     const char *start_time_str = datum_to_c_string(PG_GETARG_DATUM(1));
     const char *end_time_str = datum_to_c_string(PG_GETARG_DATUM(2));
+    const int limit = PG_GETARG_INT32(3);
+    const char *hardware = text_to_cstring(PG_GETARG_TEXT_P(4));
+    const char *version = text_to_cstring(PG_GETARG_TEXT_P(5));
 
-    const char *command = build_query(table_name_cstr, start_time_str, end_time_str);
+    const char *command = build_query_with_limit(table_name_cstr, start_time_str, end_time_str, limit);
 
     FuncCallContext *funcctx;
     Portal signature_cursor;
@@ -207,7 +210,7 @@ Datum heart_rate_estimation_cuda(PG_FUNCTION_ARGS)
     if (func_info->results_proccesed == func_info->results_size)
     {
         SPI_cursor_fetch(signature_cursor, forward, fetch_count);
-        func_info->results = compute_heart_rate_results(funcctx);
+        func_info->results = compute_heart_rate_results(funcctx, hardware, version);
         func_info->results_proccesed = 0;
         func_info->results_size = funcctx->max_calls;
     }

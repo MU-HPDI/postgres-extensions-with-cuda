@@ -25,18 +25,25 @@ SELECT * FROM max_reduction_cuda('2023-04-08 22:00:00'::timestamp, '2023-04-09 2
 
 
 -- Heart Rate 
-DROP FUNCTION IF EXISTS heart_rate_estimation_cuda(character varying, timestamp without time zone, timestamp without time zone);
-DROP TYPE IF EXISTS __heart_rate_type;
-CREATE TYPE __heart_rate_type AS (
+CREATE TABLE IF NOT EXISTS heart_rate_timings (
+        experiment_version character varying(255) NOT NULL,
+        number_minutes integer NOT NULL,
+        hardware character varying(255) NOT NULL,
+        elapsed_time real NOT NULL
+);
+
+
+DROP FUNCTION IF EXISTS heart_rate_estimation(character varying, timestamp without time zone, timestamp without time zone, integer, character varying, character varying);
+CREATE TYPE __heart_rate_comp_type AS (
         tstmp timestamp without time zone, 
         heart_rate real
 );
 
-CREATE OR REPLACE FUNCTION heart_rate_estimation_cuda(character varying, timestamp without time zone, timestamp without time zone)
-        RETURNS SETOF __heart_rate_type
-     AS '/tmp/main.so', 'heart_rate_estimation_cuda'
+CREATE OR REPLACE FUNCTION heart_rate_estimation(character varying, timestamp without time zone, timestamp without time zone, integer, character varying, character varying)
+        RETURNS SETOF __heart_rate_comp_type
+     AS '/tmp/main.so', 'heart_rate_estimation'
      LANGUAGE C STRICT
 ;
 
 
-SELECT * FROM heart_rate_estimation_cuda('bed_data', '2022-06-20 00:00:00'::timestamp, '2022-06-20 01:00:00'::timestamp);
+SELECT * FROM heart_rate_estimation('bed_data', '2022-06-20 00:00:00'::timestamp, '2022-06-20 01:00:00'::timestamp, 10, 'CPU', '1.0');

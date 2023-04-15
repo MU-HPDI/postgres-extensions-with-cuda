@@ -38,40 +38,6 @@ void flip_and_append_device(
 
 }
 
-template <typename Input, typename T>
-__device__ 
-void butter_lowpass_filter_device(
-    const Input *x,
-    T *filter_x,
-    int size_x
-)
-{
-
-    int tid = threadIdx.x;
-
-    if (tid != 0)
-    {
-        return;
-    }
-
-    T zi[COEFF_LEN] = {0.0};
-
-    T coeff_b[] = {0.000234487894504741, 0, -0.00140692736702845, 0, 0.00351731841757112, 0, -0.00468975789009482, 0, 0.00351731841757112, 0, -0.00140692736702845, 0, 0.000234487894504741};
-    T coeff_a[] = {1, -9.60972210409256, 42.5044725167320, -114.495656304045, 209.312140612173, -273.691848572724, 262.545133243944, -186.198726793693, 96.9036651938758, -36.0926373232641, 9.13215305571148, -1.40928057198485, 0.100307047533755};
-
-    for (int m = 0; m < size_x; m++)
-    {
-        T x_value = (T)x[m];
-        filter_x[m] = coeff_b[0] * x_value + zi[0];
-
-        for (int i = 1; i < COEFF_LEN; i++)
-        {
-            zi[i - 1] = coeff_b[i] * x_value + zi[i] - coeff_a[i] * filter_x[m];
-        }
-
-    }
-}
-
 template<typename T, typename U>
 __device__ 
 void compute_energy_device(
@@ -351,4 +317,38 @@ void diff_device(
     int i = tid + 1;
     output[tid] = array[i] - array[i - 1];
 
+}
+
+template <typename Input, typename T>
+__device__ 
+void butter_lowpass_filter_device(
+    const Input *x,
+    T *filter_x,
+    int size_x
+)
+{
+
+    int tid = threadIdx.x;
+
+    if (tid != 0)
+    {
+        return;
+    }
+
+    T zi[COEFF_LEN] = {0.0};
+
+    T coeff_b[] = {0.000234487894504741, 0, -0.00140692736702845, 0, 0.00351731841757112, 0, -0.00468975789009482, 0, 0.00351731841757112, 0, -0.00140692736702845, 0, 0.000234487894504741};
+    T coeff_a[] = {1, -9.60972210409256, 42.5044725167320, -114.495656304045, 209.312140612173, -273.691848572724, 262.545133243944, -186.198726793693, 96.9036651938758, -36.0926373232641, 9.13215305571148, -1.40928057198485, 0.100307047533755};
+
+    for (int m = 0; m < size_x; m++)
+    {
+        T x_value = (T)x[m];
+        filter_x[m] = coeff_b[0] * x_value + zi[0];
+
+        for (int i = 1; i < COEFF_LEN; i++)
+        {
+            zi[i - 1] = coeff_b[i] * x_value + zi[i] - coeff_a[i] * filter_x[m];
+        }
+
+    }
 }

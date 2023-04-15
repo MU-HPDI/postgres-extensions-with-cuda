@@ -1,20 +1,18 @@
-from dotenv import load_dotenv
-import os
 import pandas as pd
-from sqlalchemy import create_engine
+import sys
+import os
 
-# Load environment variables from .env file
-load_dotenv()
+# Get the absolute path of the parent directory of this script
+SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Get database connection parameters from environment variables
-dbname = os.getenv("PGDATABASE")
-user = os.getenv("PGUSER")
-password = os.getenv("PGPASSWORD")
-host = os.getenv("PGHOST")
-port = os.getenv("PGPORT")
+# Add the scripts directory to the Python path
+sys.path.insert(0, os.path.join(SCRIPT_DIR, 'scripts'))
+
+import db_funcs as db
+
 
 if __name__ == "__main__":
-    engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{dbname}")
+    engine = db.get_engine()
 
     # try to create table
     try:

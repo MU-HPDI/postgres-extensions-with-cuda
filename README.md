@@ -47,9 +47,6 @@ Example output:
 3. Set the required environment variables in a `.env` file.
 4. Insert dummy data into the database: `make insert`
 5. Run the project: `make clean all`
-6. Optionally, you can run only the CUDA kernel: `make clean cuda`
-   1. Then, you execute the kernel: `./cuda.out`
-
 ## PostgreSQL Functions
 
 Once the project is running, you can execute the following functions:

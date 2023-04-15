@@ -5,10 +5,6 @@ SRCFILE = main
 PG_SERVER_DIR = /usr/include/postgresql/14/server
 PG_BINDIR = /tmp
 
-# Use automatic variables to avoid repetition and simplify the Makefile
-# cuda_kernel.o: cuda_funcs/cuda_kernel.cu
-# 	nvcc -Xcompiler -fPIC -c $< -o $@
-
 cuda_wrappers.o: cuda_funcs/cuda_wrappers.cu
 	nvcc -Xcompiler -fPIC -c $< -o $@
 
@@ -34,6 +30,7 @@ NUM_RECORDS = 10
 ARRAY_LENGTH = 1024
 
 insert:
+	./bed_data_script.sh
 	env/bin/python3 dummy_data.py --num_records $(NUM_RECORDS) --array_length $(ARRAY_LENGTH)
 
 clean:

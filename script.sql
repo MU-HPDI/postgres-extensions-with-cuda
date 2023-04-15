@@ -1,3 +1,4 @@
+-- Vector Addition
 DROP FUNCTION IF EXISTS vector_addition_cuda(integer [], integer[]);
 CREATE OR REPLACE FUNCTION vector_addition_cuda(integer [], integer[])
         RETURNS integer []
@@ -7,6 +8,7 @@ CREATE OR REPLACE FUNCTION vector_addition_cuda(integer [], integer[])
 
 SELECT vector_addition_cuda(ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
+-- Reduction
 DROP FUNCTION IF EXISTS max_reduction_cuda(start_time timestamp without time zone, end_time timestamp without time zone);
 DROP TYPE IF EXISTS __retcomposite_max_reduction;
 CREATE TYPE __retcomposite_max_reduction AS (

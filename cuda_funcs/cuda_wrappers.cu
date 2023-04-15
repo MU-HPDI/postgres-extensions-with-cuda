@@ -85,6 +85,7 @@ void cuda_wrapper_heart_rate_estimation(
     }
     h_offset_vector[heart_rate_size] = num_of_elements;
 
+    // Step 1: Flatten the vector of vectors
     std::vector<unsigned short int> flattened_vec;
     flattened_vec.reserve(std::accumulate(selected_filter_vector.begin(), selected_filter_vector.end(), 0,
         [](size_t acc, const std::vector<unsigned short int>& vec) {

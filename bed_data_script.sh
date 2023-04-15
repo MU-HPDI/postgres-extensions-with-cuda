@@ -10,4 +10,6 @@ else
     source env/bin/activate
 fi
 
+
+echo "Creating and inserting in bed_data table"
 python3 load_bed_data.py

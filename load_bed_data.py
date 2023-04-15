@@ -38,7 +38,7 @@ if __name__ == "__main__":
             if_exists="append",
             index=False,
         )
+        print(f"Inserted {len(df)} records into bed_data table")
     except:
-        print("Data already exists")
+        print("No records inserted")
 
-    print("Done")

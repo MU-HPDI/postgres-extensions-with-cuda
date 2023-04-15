@@ -33,6 +33,8 @@ if __name__ == "__main__":
         help="maximum number of values in each array",
     )
     args = parser.parse_args()
+    
+    print(f"Inserting {args.num_records} records with array length {args.array_length} into example table")
 
     # Set up database connection
     conn = psycopg2.connect(
@@ -46,6 +48,9 @@ if __name__ == "__main__":
     except:
         print("Table already exists")
         conn.rollback()
+        
+        
+    records_inserted = 0
 
     # Generate random data and insert into database
     for i in range(args.num_records):
@@ -66,10 +71,11 @@ if __name__ == "__main__":
         cur.execute(
             "INSERT INTO example (tstmp, values) VALUES (%s, %s)", (timestamp, values)
         )
+        records_inserted += 1
 
     # Commit changes and close database connection
     conn.commit()
     cur.close()
     conn.close()
 
-    print("Done")
+    print(f"Inserted {records_inserted} records into example table")

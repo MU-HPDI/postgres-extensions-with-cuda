@@ -1,14 +1,12 @@
 # CUDA integration with PostgreSQL
 
-This project is a example of a CUDA integration with PostgreSQL. It is a simple example of a CUDA kernel that is executed on the GPU and the result is return as a set returning function (SRF).
-
-
+This project is a example of a CUDA integration with PostgreSQL. It is a simple example of a CUDA kernel that is executed on the GPU and the result is return as a set returning function (SRF). This project also includes an implementation of a CUDA kernel that computes the heart rate of a resident based on their bed sensor data.
 ## Prerequisites
 
-- [PostgreSQL](https://www.postgresql.org/download/)
+- Having a valid installation of [PostgreSQL](https://www.postgresql.org/download/) (version 10 or higher)
 - Development libraries and headers for C language backend for PostgreSQL
   - `sudo apt install postgresql-server-dev-XX` where `XX` is the version of PostgreSQL
-- [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
+- [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/) (version 10.1 or higher)
 ## Repository Installation
 
 1. Clone the repository: `git clone https://github.com/MU-HPDI/postgres-extensions-with-cuda.git`
@@ -19,12 +17,37 @@ This project is a example of a CUDA integration with PostgreSQL. It is a simple 
 ## Usage
 
 1. Make sure that the PostgreSQL server is running.
-2. Set the required environment variables in a `.env` file.
-3. Create environment for python virtual environment: `python3 -m venv env`
-4. Install python dependencies: `pip install -r requirements.txt`
-5. Insert dummy data into the database: `make insert`
-6. Run the project: `make clean all`
-7. Optionally, you can run only the CUDA kernel: `make clean cuda`
+2. Check valid GPU devices: `nvidia-smi`
+Example output:
+```
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.161.03   Driver Version: 470.161.03   CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ...  Off  | 00000000:0A:00.0 Off |                  N/A |
+|  0%   37C    P8     2W / 225W |    159MiB /  7981MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A      1229      G   /usr/lib/xorg/Xorg                 36MiB |
+|    0   N/A  N/A      1475      G   /usr/bin/gnome-shell                9MiB |
+|    0   N/A  N/A    159183      C   ...ied 127.0.0.1(60178) idle      109MiB |
++-----------------------------------------------------------------------------+
+```
+3. Set the required environment variables in a `.env` file.
+4. Create environment for python virtual environment: `python3 -m venv env`
+5. Install python dependencies: `pip install -r requirements.txt`
+6. Insert dummy data into the database: `make insert`
+7. Run the project: `make clean all`
+8. Optionally, you can run only the CUDA kernel: `make clean cuda`
    1. Then, you execute the kernel: `./cuda.out`
 ## Environment Variables
 

@@ -9,13 +9,10 @@ This project is a example of a CUDA integration with PostgreSQL. It is a simple 
 - [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/) (version 10.1 or higher)
 ## Repository Installation
 
-1. Clone the repository: `git clone https://github.com/MU-HPDI/postgres-extensions-with-cuda.git`
-2. Check the include PostgreSQL directory: `pg_config --includedir-server`
-3. Navigate to the project directory: `cd postgres-extensions-with-cuda`
-4. Create a build directory: `mkdir build`
-5. Insert dummy data into the database: `make insert`
-6. Build the project: `make clean extension`
-
+```bash
+git clone https://github.com/MU-HPDI/postgres-extensions-with-cuda.git
+cd postgres-extensions-with-cuda
+```
 ## Usage
 
 1. Make sure that the PostgreSQL server is running.
@@ -44,9 +41,12 @@ Example output:
 |    0   N/A  N/A    159183      C   ...ied 127.0.0.1(60178) idle      109MiB |
 +-----------------------------------------------------------------------------+
 ```
-3. Set the required environment variables in a `.env` file.
-4. Insert dummy data into the database: `make insert`
-5. Run the project: `make clean extension`
+3. Check the include PostgreSQL directory: `pg_config --includedir-server`
+4. Navigate to the project directory: `cd postgres-extensions-with-cuda`
+5. Create a build directory: `mkdir build`
+6. Set the required environment variables in a `.env` file from the `.env.example` file.
+7. Insert dummy data into the database: `make insert`
+8. Run the project: `make clean extension`
 ## PostgreSQL Functions
 
 Once the project is running, you can execute the following functions:

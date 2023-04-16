@@ -1,6 +1,6 @@
 # CUDA integration with PostgreSQL
 
-This project is a example of a CUDA integration with PostgreSQL. It is a simple example of a CUDA kernel that is executed on the GPU and the result is return as a set returning function (SRF). This project also includes an implementation of a CUDA kernel that computes the heart rate of a resident based on their bed sensor data.
+This project provides examples of how to integrate CUDA with PostgreSQL. It includes the following: a vector addition extension computed on the GPU, a Set Returning Function (SRF) that computes the maximum number of each time interval using a parallel reduction algorithm on the GPU, and an implementation of a CUDA kernel that computes the heart rate of a resident based on their bed sensor data. The heart rate estimation kernel results are the ones presented in the submitted paper. The project also includes a Python script that can be used to reproduce the results of the paper by inserting dummy data into the database and running the heart rate estimation function over different time intervals. Lastly, the project includes a script that can be used to generate a plot of the results of the heart rate estimation function over different time intervals.
 ## Prerequisites
 
 - Having a valid installation of [PostgreSQL](https://www.postgresql.org/download/) (version 10 or higher)

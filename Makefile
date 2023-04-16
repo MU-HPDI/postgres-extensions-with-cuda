@@ -2,7 +2,8 @@ include .env
 
 # Use variables for directories and files
 SRCFILE = main
-PG_SERVER_DIR = /usr/include/postgresql/14/server
+PG_SERVER_DIR = $(shell pg_config --includedir-server)
+# PG_SERVER_DIR = /usr/include/postgresql/14/server
 PG_BINDIR = /tmp
 BUILD_DIR = build
 

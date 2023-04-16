@@ -17,6 +17,8 @@ extern "C"
 #include "cuda_funcs/cuda_wrappers.hpp"
 #include "cpu_funcs/host_wrapper.hpp"
 #include <vector>
+#define BPM_MAX 200
+#define BPM_MIN 25
 
 struct AggregatedResult
 {
@@ -301,7 +303,7 @@ Datum **compute_heart_rate_results(FuncCallContext *funcctx, const char *hardwar
     {
         float4 heart_rate_value = heart_rate_array[i];
 
-        if (heart_rate_value > 200 || heart_rate_value < 25)
+        if (heart_rate_value > BPM_MAX || heart_rate_value < BPM_MIN)
         {
             continue;
         }

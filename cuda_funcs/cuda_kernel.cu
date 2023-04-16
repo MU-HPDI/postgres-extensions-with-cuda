@@ -65,11 +65,9 @@ void hr_kernel(
 
     unsigned short int *input = &global_input[index];    
 
-    __shared__ unsigned short int input_with_padding[ARRAY_SIZE + SLIDE]; // (6'000 + 500) * 2 = 13'000
+    __shared__ unsigned short int input_with_padding[ARRAY_SIZE + SLIDE];
     int num_elements_to_work_flip = ceil((float) input_size /(float) HR_BLOCK_SIZE);
     flip_and_append_device<unsigned short int>(input, input_with_padding,input_size,  SLIDE, num_elements_to_work_flip);
-    // __syncthreads();
-
 
     unsigned short int *input_ptr = &input_with_padding[SLIDE];
 
@@ -88,7 +86,7 @@ void hr_kernel(
     
     T *output_ptr = &output_padding_ptr[SLIDE];
 
-    __shared__ float energy_array[ARRAY_SIZE]; // 6'000 * 4 = 24'000
+    __shared__ float energy_array[ARRAY_SIZE];
 
     int num_elements_to_work_energy = ceil((float) input_size /(float) HR_BLOCK_SIZE);
     int energy_size = (input_size - 30 + 1);
@@ -115,7 +113,7 @@ void hr_kernel(
 
     __syncthreads();
 
-    __shared__ unsigned short int peak_indices_array[PEAKS_MAX_SIZE]; // 1'000
+    __shared__ unsigned short int peak_indices_array[PEAKS_MAX_SIZE];
     __shared__ int peak_size;
     int output_ptr_size = energy_size;
     int num_elements_to_work_peaks = ceil((float) output_ptr_size /(float) HR_BLOCK_SIZE);

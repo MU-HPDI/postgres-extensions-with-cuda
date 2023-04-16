@@ -3,7 +3,8 @@
 This project provides examples of how to integrate CUDA with PostgreSQL. It includes the following: a vector addition extension computed on the GPU, a Set Returning Function (SRF) that computes the maximum number of each time interval using a parallel reduction algorithm on the GPU, and an implementation of a CUDA kernel that computes the heart rate of a resident based on their bed sensor data. The heart rate estimation kernel results are the ones presented in the submitted paper. The project also includes a Python script that can be used to reproduce the results of the paper by inserting dummy data into the database and running the heart rate estimation function over different time intervals. Lastly, the project includes a script that can be used to generate a plot of the results of the heart rate estimation function over different time intervals.
 ## Prerequisites
 
-- Having a valid installation of [PostgreSQL](https://www.postgresql.org/download/) (version 10 or higher)
+- Python 3.6 or higher [installation instructions](https://www.python.org/downloads/)
+- Valid installation of [PostgreSQL](https://www.postgresql.org/download/) (version 10 or higher)
 - Development libraries and headers for C language backend for PostgreSQL
   - `sudo apt install postgresql-server-dev-XX` where `XX` is the version of PostgreSQL
 - [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/) (version 10.1 or higher)
@@ -42,10 +43,11 @@ Example output:
 +-----------------------------------------------------------------------------+
 ```
 3. Check the include PostgreSQL directory: `pg_config --includedir-server`
-4. Create a build directory: `mkdir build`
-5. Set the required environment variables in a `.env` file from the `.env.example` file.
-6. Insert dummy data into the database: `make insert`
-7. Run the project: `make clean extension`
+4. Change the `PG_SERVER_DIR` variable in the `Makefile` file to the directory returned if wanting to use a different version of PostgreSQL. (`pg_config --includedir-server` returns the directory for the latest version of the installed PostgreSQL.)
+5. Create a build directory: `mkdir build`
+6. Set the required environment variables in a `.env` file from the `.env.example` file.
+7. Insert dummy data into the database: `make insert`
+8. Run the project: `make clean extension`
 ## PostgreSQL Functions
 
 Once the project is running, you can execute the following functions:
@@ -89,9 +91,10 @@ make plot
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-## Acknowledgements
+## Resources
 
-- [PostgreSQL](https://www.postgresql.org/)
-- [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit)
-
-Please feel free to update and modify this README.md file to suit your specific project needs.
+- [CUDA Toolkit Documentation](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html)
+- [Thrust Documentation](https://thrust.github.io/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [SPI Documentation](https://www.postgresql.org/docs/current/spi.html)
+- [PostgreSQL C API Documentation](https://doxygen.postgresql.org/)

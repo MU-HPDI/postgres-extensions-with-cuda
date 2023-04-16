@@ -6,35 +6,6 @@
 #define COEFF_LEN 13
 #define SLIDE 500
 
-template <typename Input, typename T>
-void butter_lowpass_filter_cpu(
-    Input *x,
-    T *filter_x,
-    int size_x)
-{
-
-    T zi[COEFF_LEN];
-
-    T coeff_b[] = {0.000234487894504741, 0, -0.00140692736702845, 0, 0.00351731841757112, 0, -0.00468975789009482, 0, 0.00351731841757112, 0, -0.00140692736702845, 0, 0.000234487894504741};
-    T coeff_a[] = {1, -9.60972210409256, 42.5044725167320, -114.495656304045, 209.312140612173, -273.691848572724, 262.545133243944, -186.198726793693, 96.9036651938758, -36.0926373232641, 9.13215305571148, -1.40928057198485, 0.100307047533755};
-
-    for (int i = 0; i < COEFF_LEN; i++)
-    {
-        zi[i] = (T)0.0;
-    }
-    //
-    for (int m = 0; m < size_x; m++)
-    {
-        filter_x[m] = coeff_b[0] * x[m] + zi[0];
-        // printf("%f * %f + %f;\n", coeff_b[0], x[m], zi[0]);
-
-        for (int i = 1; i < COEFF_LEN; i++)
-        {
-            zi[i - 1] = coeff_b[i] * x[m] + zi[i] - coeff_a[i] * filter_x[m];
-        }
-    }
-}
-
 template <typename T, typename U>
 void compute_energy_cpu(T *input, U *energy_array, int input_size, int energy_size, int window_size)
 {
@@ -254,6 +225,34 @@ T *diff_cpu(T *array, int array_size)
     }
 
     return output;
+}
+
+template <typename Input, typename T>
+void butter_lowpass_filter_cpu(
+    Input *x,
+    T *filter_x,
+    int size_x)
+{
+
+    T zi[COEFF_LEN];
+
+    T coeff_b[] = {0.000234487894504741, 0, -0.00140692736702845, 0, 0.00351731841757112, 0, -0.00468975789009482, 0, 0.00351731841757112, 0, -0.00140692736702845, 0, 0.000234487894504741};
+    T coeff_a[] = {1, -9.60972210409256, 42.5044725167320, -114.495656304045, 209.312140612173, -273.691848572724, 262.545133243944, -186.198726793693, 96.9036651938758, -36.0926373232641, 9.13215305571148, -1.40928057198485, 0.100307047533755};
+
+    for (int i = 0; i < COEFF_LEN; i++)
+    {
+        zi[i] = (T)0.0;
+    }
+
+    for (int m = 0; m < size_x; m++)
+    {
+        filter_x[m] = coeff_b[0] * x[m] + zi[0];
+
+        for (int i = 1; i < COEFF_LEN; i++)
+        {
+            zi[i - 1] = coeff_b[i] * x[m] + zi[i] - coeff_a[i] * filter_x[m];
+        }
+    }
 }
 
 template <typename T, unsigned int ARRAY_SIZE, unsigned int PEAKS_MAX_SIZE>

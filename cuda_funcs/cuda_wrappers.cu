@@ -46,6 +46,7 @@ void cuda_find_max(const short int* data, short int *output, int rows, int cols)
     thrust::device_vector<short int> d_result(rows);
     short int *d_result_ptr = thrust::raw_pointer_cast(d_result.data());
 
+    //  === CUDA ===
     max_kernel<<<gridSize, blockSize>>>(d_data_ptr, d_result_ptr, rows, cols);
     cudaDeviceSynchronize();
 
@@ -111,6 +112,7 @@ void cuda_wrapper_heart_rate_estimation(
 
     thrust::device_vector<T> d_heart_rate(heart_rate_size);
 
+    // Get raw pointers
     unsigned short int *d_selected_filter_vector_ptr = thrust::raw_pointer_cast(d_selected_filter_vector.data());
     int *d_offset_vector_ptr = thrust::raw_pointer_cast(d_offset_vector.data());
     T *d_heart_rate_ptr = thrust::raw_pointer_cast(d_heart_rate.data());
@@ -122,6 +124,7 @@ void cuda_wrapper_heart_rate_estimation(
     thrust::device_vector<T> d_global_output_with_padding(heart_rate_size * (array_size + slide));
     T *d_global_output_with_padding_ptr = thrust::raw_pointer_cast(d_global_output_with_padding.data()); 
 
+    //  === CUDA ===
     hr_kernel<T, 6'000, 500> <<<blocks, num_of_threads >>>(
         d_selected_filter_vector_ptr,
         d_offset_vector_ptr,
@@ -130,17 +133,18 @@ void cuda_wrapper_heart_rate_estimation(
     );
     cudaDeviceSynchronize();
 
+    // get last CUDA error
     cudaError_t err = cudaGetLastError();
     if (err != cudaSuccess){
         std::cerr << "Error: " << cudaGetErrorString(err) <<  " Name: " << cudaGetErrorName(err) << std::endl;
     }
 
+    // Copy the result back to the host
     thrust::copy(d_heart_rate.begin(), d_heart_rate.end(), heart_rate);
 
 
     cudaEventRecord(stop_cuda, 0);
     cudaEventSynchronize(stop_cuda);
-
     cudaEventElapsedTime(time_elapsed, start_cuda, stop_cuda);
 
 }

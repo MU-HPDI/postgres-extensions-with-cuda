@@ -24,7 +24,8 @@ if __name__ == "__main__":
         );
         """
         )
-    except:
+    except Exception as e:
+        print(e)
         print("Table already exists")
 
     df = pd.read_csv("scripts/bed_data.zip", compression="zip")

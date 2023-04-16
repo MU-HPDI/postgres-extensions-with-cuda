@@ -5,6 +5,7 @@ This project provides examples of how to integrate CUDA with PostgreSQL. It incl
 
 - Python 3.6 or higher [installation instructions](https://www.python.org/downloads/)
 - Valid installation of [PostgreSQL](https://www.postgresql.org/download/) (version 10 or higher)
+- Having a superuser role in PostgreSQL (i.e. `postgres` user in Linux has superuser role by default). 
 - Development libraries and headers for C language backend for PostgreSQL
   - `sudo apt install postgresql-server-dev-XX` where `XX` is the version of PostgreSQL
 - [CUDA Toolkit](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/) (version 10.1 or higher)

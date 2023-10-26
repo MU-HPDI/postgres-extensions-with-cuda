@@ -1,4 +1,4 @@
-include .env
+#include .env
 
 # Use variables for directories and files
 SRCFILE = main

@@ -1,0 +1,27 @@
+version: "3"
+services:
+  postgres:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 100
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 5440:5432
+    env_file:
+      - .env
+    volumes:
+      - postgres-ml-data:/var/lib/postgresql/14/main/
+
+volumes:
+  postgres-ml-data:
